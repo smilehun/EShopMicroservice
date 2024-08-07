@@ -1,22 +1,21 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
-//add service to the container
-builder.Services.AddCarter();
-
+// Add services to the container.
 var assembly = typeof(Program).Assembly;
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
-    config.RegisterServicesFromAssemblies(assembly);
+    config.RegisterServicesFromAssembly(assembly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 
+
 var app = builder.Build();
 
-//configure the http request pipeline
-
+// Configure the HTTP request pipeline.
 app.MapCarter();
+//app.UseExceptionHandler(options => { });
+
 app.Run();
